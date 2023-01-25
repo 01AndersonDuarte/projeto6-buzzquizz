@@ -1,0 +1,73 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Roboto';
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+header{
+    width: 100%;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+
+    background-color: #EC362D;
+}
+header h1{
+    color: #FFFFFF;;
+    font-size: 37px;
+    font-weight: 700;
+}
+main{
+    margin-top: 77px;
+}
+main .botaoInicial{
+    width: 1051px;
+    padding: 20px;
+
+    border: 1px dashed #D5D5D5;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 77px;
+}
+main .botaoInicial p{
+    width: 250px;
+    padding: 20px;
+
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 23px;
+    color: #B9B9B9;
+    text-align: center;
+}
+main .botaoInicial button{
+    width: 136px;
+    height: 40px;
+
+    border-radius: 20px;
+    border: 1px dashed #EC362D;
+
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 23px;
+    text-align: center;
+    color: #EC362D;
+
+    background-color: transparent;
+}
+main .todosOsQuizzes{
+    width: 1051px;
+    height: 50px;
+
+    background-color: red;
+}
