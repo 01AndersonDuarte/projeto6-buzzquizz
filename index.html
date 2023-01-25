@@ -25,10 +25,26 @@
         <main>
             <div class="botaoInicial">
                 <p>Você não criou nenhum quizz ainda :(</p>
-                <button>Criar Quizz</button>
+                <button onclick="criarQuizz()">Criar Quizz</button>
             </div>
             <div class="todosOsQuizzes"></div>
         </main>
+        <div class="criarQuizz escondido">
+            <div class="telaUm">
+                <h1>Comece pelo começo</h1>
+                <div>
+                    <input name="tituloQuizz" type="text" placeholder="Título do seu quizz">
+                    <input name="urlQuizz" type="text" placeholder="URL da imagem do seu quizz">
+                    <input name="numPerguntasQuizz" type="text" placeholder="Quantidade de perguntas do quizz">
+                    <input name="numNiveisQuizz" type="text" placeholder="Quantidade de níveis do quizz">
+                </div>
+                <button>Prosseguir pra criar perguntas</button>
+            </div>
+            <div class="telaDois escondido"></div>
+            <div class="telatrês escondido"></div>
+            <div class="telaQuatro escondido"></div>
+
+        </div>
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="js/script.js"></script>
