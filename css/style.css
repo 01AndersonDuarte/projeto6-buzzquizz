@@ -2,6 +2,8 @@
     box-sizing: border-box;
 }
 body{
+    background-color: rgba(229, 229, 229, .4);
+
     font-family: 'Roboto';
     display: flex;
     flex-direction: column;
@@ -52,7 +54,7 @@ main .botaoInicial p{
     color: #B9B9B9;
     text-align: center;
 }
-main .botaoInicial button, button:hover{
+main .botaoInicial button{
     width: 136px;
     height: 40px;
 
@@ -66,7 +68,8 @@ main .botaoInicial button, button:hover{
     color: #EC362D;
 
     background-color: transparent;
-
+}
+button:hover{
     cursor: pointer;
 }
 main .todosOsQuizzes{
@@ -99,7 +102,7 @@ main .todosOsQuizzes{
     align-items: center;
     justify-content: space-between;
 }
-.criarQuizz .telaUm div input{
+.criarQuizz input{
     width: 564px;
     height: 46px;
     border: 1px solid #D1D1D1;
@@ -111,9 +114,10 @@ main .todosOsQuizzes{
     font-weight: 400;
     color: #BABABA;
 }
-.criarQuizz .telaUm button{
+.criarQuizz .telaUm button, .telaDois button{
     width: 369px;
     height: 54px;
+    margin-bottom: 50px;
     font-size: 21px;
     font-weight: 400;
     line-height: 25px;
@@ -122,9 +126,57 @@ main .todosOsQuizzes{
     background-color: #EC362D;
     border: none;
     border-radius: 15px;
-
 }
 
+.telaDois .container-perguntas{
+    padding: 30px 0;
+}
+.container-perguntas .numPergunta{
+    padding: 25px;
+    margin-bottom: 24px;
+
+    background-color: #FFFFFF;
+    border: none;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.telaDois h2{
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 23px;
+    color: #000000;
+    text-align: start;
+}
+.telaDois ion-icon{
+    font-size: 26px;
+}
+.telaDois .numPergunta:hover{
+    cursor: pointer;
+}
+.telaDois .dadosPerguntas{
+    height: 825px;
+
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    padding: 40px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.dadosPerguntas .blocoPergunta, .blocoRCorreta, .blocoRIncorreta{
+    height: 141px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.dadosPerguntas .blocoRIncorreta{
+    height: 421px;
+}
 .escondido{
     display: none;
 }
