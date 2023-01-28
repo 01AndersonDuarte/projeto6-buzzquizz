@@ -114,7 +114,7 @@ main .todosOsQuizzes{
     font-weight: 400;
     color: #BABABA;
 }
-.criarQuizz .telaUm button, .telaDois button{
+.criarQuizz .telaUm button, .telaDois button, .telaTres button{
     width: 369px;
     height: 54px;
     margin-bottom: 50px;
@@ -128,10 +128,10 @@ main .todosOsQuizzes{
     border-radius: 15px;
 }
 
-.telaDois .container-perguntas{
+.telaDois .container-perguntas, .telaTres .container-niveis{
     padding: 30px 0;
 }
-.container-perguntas .numPergunta{
+.container-perguntas .numPergunta, .container-niveis .numNivel{
     padding: 25px;
     margin-bottom: 24px;
 
@@ -143,17 +143,17 @@ main .todosOsQuizzes{
     align-items: center;
     justify-content: space-between;
 }
-.telaDois h2{
+.telaDois h2, .telaTres h2{
     font-size: 20px;
     font-weight: 700;
     line-height: 23px;
     color: #000000;
     text-align: start;
 }
-.telaDois ion-icon{
+.telaDois ion-icon, .telaTres ion-icon{
     font-size: 26px;
 }
-.telaDois .numPergunta:hover{
+.telaDois .numPergunta:hover, .telaTres .numNivel:hover{
     cursor: pointer;
 }
 .telaDois .dadosPerguntas{
@@ -176,6 +176,17 @@ main .todosOsQuizzes{
 }
 .dadosPerguntas .blocoRIncorreta{
     height: 421px;
+}
+.telaTres .dadosNiveis{
+    height: 251px;
+
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    padding: 10px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .escondido{
     display: none;

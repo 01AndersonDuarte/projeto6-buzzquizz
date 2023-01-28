@@ -96,7 +96,6 @@ function irParaCriarPerguntas(){
     if(contador===4){
         document.querySelector('.telaUm').classList.add('escondido');
         document.querySelector('.telaDois').classList.remove('escondido');
-        //Chamar a função de incrementar as informações na tela
         inserirInformacoesQuizz();
     }
 }
@@ -140,6 +139,35 @@ function verificaRespostasErradas(arrayErradasRespostas, arrayErradasUrl){
     }
     return false;
 }
+function inserirNivel(nivel){
+    nivel.querySelector('.numNivel').parentNode.classList.add('escondido');
+    nivel.querySelector('.dadosNiveis').parentNode.classList.remove('escondido');
+}
+function inserirInformacoesNiveis(){
+
+    const containerNiveis = document.querySelector(".container-niveis");
+    containerNiveis.innerHTML="";
+    for(let i=0; i<qntNiveis; i++){
+        const questDeFormacaoQuizz = `<div onclick="inserirNivel(this)">
+        <span>
+            <div class="numNivel">
+                <h2>Nível ${i+1}</h2>
+                <ion-icon name="create-outline"></ion-icon>
+            </div>
+        </span>
+        <span class="escondido">
+            <div class="dadosNiveis">
+                <h2>Nível ${i+1}</h2>
+                <input name="tituloNivel" type="text" placeholder="Título do nível">
+                <input name="porcentagemNivel" type="text" placeholder="% de acerto mínima">
+                <input name="urlNivel" type="text" placeholder="URL da imagem do nível">
+                <input name="descricaoNivel" type="text" placeholder="Descrição do nível">
+            </div>
+        </span> 
+    </div>`;
+        containerNiveis.innerHTML+=questDeFormacaoQuizz; 
+    }
+}
 function irParaCriarNiveis(){
     let contador=0;
 
@@ -163,9 +191,41 @@ function irParaCriarNiveis(){
     }
    
     if(contador==qntPerguntas){
-        alert("Abrir próxima tela");
+        document.querySelector('.telaDois').classList.add('escondido');
+        document.querySelector('.telaTres').classList.remove('escondido');
+        inserirInformacoesNiveis();
     }else{
         alert("Uma ou mais informações estão inválidas.");
     }
     
+}
+function finalizarCriacao(){
+    let contador=0;
+    let contador1=0;
+
+    const tituloNivel = document.getElementsByName('tituloNivel');
+    const porcentagemNivel = document.getElementsByName('porcentagemNivel'); 
+    const urlNivel = document.getElementsByName('urlNivel'); 
+    const descricaoNivel = document.getElementsByName('descricaoNivel');
+
+    
+    for(let i=0; i<qntNiveis; i++){
+        if(porcentagemNivel[i].value==0){
+            contador1=1;
+        }
+    }
+    if(contador1==1){
+        for(let i=0; i<qntNiveis; i++){
+            if(tituloNivel[i].value.length>9 && 
+                (porcentagemNivel[i].value>=0 && porcentagemNivel[i].value<=100) && validarUrl(urlNivel[i].value)
+                && descricaoNivel[i].value.length>29){
+                contador++;
+            }
+        }
+    }
+    if(contador==qntNiveis){
+        alert("Abrir tela final");
+    }else{
+        alert("Um ou mais campos estão incorretos");
+    }
 }
