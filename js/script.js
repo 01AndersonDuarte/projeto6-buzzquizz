@@ -1,5 +1,10 @@
 let titulo, url, qntNiveis, qntPerguntas;//Variáveis globais usadas para construir o formulário do Quizz
 //let objetoCriacaoQuizz;
+let arrayObjQuestoes=[];
+let respostasErradas=[];
+
+let arrayObjNiveis=[];
+
 function criarQuizz(){
     document.querySelector('main').classList.add('escondido');
     document.querySelector('.criarQuizz').classList.remove('escondido');
@@ -130,12 +135,18 @@ function ehHexadecimal(hexadecimalCor){
     return false;
 }
 function verificaRespostasErradas(arrayErradasRespostas, arrayErradasUrl){
+    let contador=0;
+    respostasErradas=[];
     for(let i=0; i<3; i++){
         const resposta = arrayErradasRespostas[i].value;
         const url = arrayErradasUrl[i].value;
         if(resposta!=="" && validarUrl(url)){
-            return true;
+            respostasErradas[i]={text: resposta, image: url, isCorrectAnswer: false};
+            contador++;
         }
+    }
+    if(contador!=0){
+        return true;
     }
     return false;
 }
@@ -168,6 +179,17 @@ function inserirInformacoesNiveis(){
         containerNiveis.innerHTML+=questDeFormacaoQuizz; 
     }
 }
+function criarArrayDeObjQuestoes(textoPergunta, hexadecimalCor, respostaCerta, urlCerta, i){
+    let respostas=[{text: respostaCerta, image: urlCerta, isCorrectAnswer: true}];
+    for(let j=1; j<=respostasErradas.length; j++){
+        respostas[j] = respostasErradas[j-1];  
+    }
+    arrayObjQuestoes[i] = {title: textoPergunta, color: hexadecimalCor, answers: respostas};
+    for(let j=0; j<qntPerguntas; j++){
+        console.log(arrayObjQuestoes[j]);
+    }
+}
+
 function irParaCriarNiveis(){
     let contador=0;
 
@@ -185,6 +207,7 @@ function irParaCriarNiveis(){
         
         if(textoPergunta.length>19 && ehHexadecimal(hexadecimalCor)){
             if(respostaCerta!=="" && validarUrl(urlCerta) && verificaRespostasErradas(respostaErrada, urlErrada)){
+                criarArrayDeObjQuestoes(textoPergunta, hexadecimalCor, respostaCerta, urlCerta, i);
                 contador++;
             }
         }
@@ -197,6 +220,33 @@ function irParaCriarNiveis(){
     }else{
         alert("Uma ou mais informações estão inválidas.");
     }
+    
+}
+function enviarQuizzParaOServidor(){
+    const quizzParaOServidor = {title: titulo, image: url, questions: arrayObjQuestoes, levels:arrayObjNiveis};
+
+    const promessa = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes', quizzParaOServidor);
+    
+    promessa.then((resposta)=>{
+        document.querySelector('.telaTres').classList.add('escondido');
+        document.querySelector('.telaQuatro').classList.remove('escondido');
+        inserirTelaQuatro();
+    });
+    promessa.catch((resposta)=>{
+        alert("DEU RUIM");
+    });
+}
+function inserirTelaQuatro(){
+    const telaQuatro = document.querySelector(".telaQuatro");
+    telaQuatro.innerHTML=`<h1>Seu quizz está pronto!</h1>
+    <div class="imagemDoQuizz">
+        <img onclick="irParaOQuizz()" src="${url}">
+        <a onclick="irParaOQuizz()">${titulo}</a>
+    </div>
+    <div class="botoesFimQuizz">    
+        <button onclick="irParaOQuizz()">Acessar Quizz</button>
+        <a onclick="voltarParaHome()">Voltar pra home</a>
+    </div>`;
     
 }
 function finalizarCriacao(){
@@ -219,12 +269,16 @@ function finalizarCriacao(){
             if(tituloNivel[i].value.length>9 && 
                 (porcentagemNivel[i].value>=0 && porcentagemNivel[i].value<=100) && validarUrl(urlNivel[i].value)
                 && descricaoNivel[i].value.length>29){
+                
+                arrayObjNiveis[i] = {title: tituloNivel[i].value, image: urlNivel[i].value, 
+                    text: descricaoNivel[i].value, minValue: porcentagemNivel[i].value};
+
                 contador++;
             }
         }
     }
     if(contador==qntNiveis){
-        alert("Abrir tela final");
+        enviarQuizzParaOServidor();
     }else{
         alert("Um ou mais campos estão incorretos");
     }
