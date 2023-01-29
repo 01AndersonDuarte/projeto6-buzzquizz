@@ -5,6 +5,37 @@ let respostasErradas=[];
 
 let arrayObjNiveis=[];
 
+function inicio(){
+    let telaBotao = document.querySelector("main div");
+
+    if(localStorage.length !== 0){
+        telaBotao.innerHTML += `<div class="seusQuizzes">
+                    <a>Seus Quizzes</a>
+                    <ion-icon onclick="criarQuizz()" name="add-circle-sharp"></ion-icon>
+                </div>
+                <div class="meusQuizzes">
+                    
+                </div>`;
+        telaBotao = document.querySelector("main div .meusQuizzes");
+        for(let i=0; i<localStorage.length; i++){
+            const itens = localStorage.getItem(localStorage.key(i));
+            const itens2 = JSON.parse(itens);
+            console.log(itens2.title);
+            telaBotao.innerHTML += `<div class="imagensMeusQuizzes">
+                        <img id="${itens2.id}" onclick="irParaOQuizz(this)" src="${itens2.image}">
+                        <a id="${itens2.id}" onclick="irParaOQuizz(this)">${itens2.title}</a>
+                    </div>`;
+
+        }  
+    }else{
+        telaBotao.innerHTML=`<div class="botaoInicial">
+        <p>Você não criou nenhum quizz ainda :(</p>
+        <button onclick="criarQuizz()">Criar Quizz</button>
+    </div>`;
+    }
+}
+inicio();
+
 function criarQuizz(){
     document.querySelector('main').classList.add('escondido');
     document.querySelector('.criarQuizz').classList.remove('escondido');
@@ -222,6 +253,49 @@ function irParaCriarNiveis(){
     }
     
 }
+function irParaOQuizz(clicado){
+    const quizz = JSON.parse(localStorage.getItem(`${clicado.id}`));
+
+    alert(clicado.id);
+    if(clicado.id==quizz.id){
+        alert("Meu quizz"+quizz.id);
+    }
+}
+function voltarParaHome(){
+    window.location.reload(true);
+}
+function inserirTelaQuatro(idQuizz){
+
+    const quizz = JSON.parse(localStorage.getItem(`${idQuizz}`)); 
+
+    const telaQuatro = document.querySelector(".telaQuatro");
+
+    telaQuatro.innerHTML=`<h1>Seu quizz está pronto!</h1>
+            <div class="imagemDoQuizz">
+                <img id="${idQuizz}" onclick="irParaOQuizz(this)" src="${quizz.image}">
+                <a id="${idQuizz}" onclick="irParaOQuizz(this)">${quizz.title}</a>
+            </div>
+            <div class="botoesFimQuizz">    
+                <button id="${idQuizz}" onclick="irParaOQuizz(this)">Acessar Quizz</button>
+                <a onclick="voltarParaHome()">Voltar pra home</a>
+            </div>`;
+
+    /*for(let i=0; i<meusQuizzes.length; i++){
+        if(meusQuizzes[i].id===idQuizz){
+            telaQuatro.innerHTML=`<h1>Seu quizz está pronto!</h1>
+            <div class="imagemDoQuizz">
+                <img id="${idQuizz}" onclick="irParaOQuizz(this)" src="${meusQuizzes[i].image}">
+                <a id="${idQuizz}" onclick="irParaOQuizz(this)">${meusQuizzes[i].title}</a>
+            </div>
+            <div class="botoesFimQuizz">    
+                <button id="${idQuizz}" onclick="irParaOQuizz(this)">Acessar Quizz</button>
+                <a onclick="voltarParaHome()">Voltar pra home</a>
+            </div>`;
+            return;
+        }
+    } */
+    
+}
 function enviarQuizzParaOServidor(){
     const quizzParaOServidor = {title: titulo, image: url, questions: arrayObjQuestoes, levels:arrayObjNiveis};
 
@@ -230,24 +304,20 @@ function enviarQuizzParaOServidor(){
     promessa.then((resposta)=>{
         document.querySelector('.telaTres').classList.add('escondido');
         document.querySelector('.telaQuatro').classList.remove('escondido');
-        inserirTelaQuatro();
+
+        localStorage.setItem(resposta.data.id, JSON.stringify(resposta.data))
+
+        /*aqui deve ter uma função que jogará o quizz para storage 
+        com a chave sendo o id único gerado pelo servidor*/
+        inserirTelaQuatro(resposta.data.id);
+        /*devo mandar o id único do quizz para esta função, de lá eu acesso os quizzes em storage
+        e implemento na tela o html do quizz com esse id, para que com ele consigamos abrir o quizz certo*/
+        
     });
     promessa.catch((resposta)=>{
+
         alert("DEU RUIM");
     });
-}
-function inserirTelaQuatro(){
-    const telaQuatro = document.querySelector(".telaQuatro");
-    telaQuatro.innerHTML=`<h1>Seu quizz está pronto!</h1>
-    <div class="imagemDoQuizz">
-        <img onclick="irParaOQuizz()" src="${url}">
-        <a onclick="irParaOQuizz()">${titulo}</a>
-    </div>
-    <div class="botoesFimQuizz">    
-        <button onclick="irParaOQuizz()">Acessar Quizz</button>
-        <a onclick="voltarParaHome()">Voltar pra home</a>
-    </div>`;
-    
 }
 function finalizarCriacao(){
     let contador=0;
